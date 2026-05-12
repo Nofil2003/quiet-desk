@@ -1,0 +1,68 @@
+---
+---
+<nav class="nav">
+  <a href="/" class="nav__brand">
+    <img src="/assets/logo-mark.svg" width="28" height="28" class="pix" alt="" />
+    <span class="nav__word">quiet<span class="nav__alt"> desk</span></span>
+  </a>
+  <ul class="nav__links">
+    <li><a href="/#writing"   class="nav__link" data-section="writing">writing</a></li>
+    <li><a href="/#building"  class="nav__link" data-section="building">building</a></li>
+    <li><a href="/#elsewhere" class="nav__link" data-section="elsewhere">elsewhere</a></li>
+    <li><a href="/#now"       class="nav__link" data-section="now">now</a></li>
+  </ul>
+  <button class="nav__theme" type="button" aria-label="toggle theme" id="theme-toggle">
+    <span class="nav__themeIcon" id="theme-icon">☾</span>
+    <span class="nav__themeLabel" id="theme-label">night</span>
+  </button>
+</nav>
+
+<script>
+  const btn   = document.getElementById('theme-toggle') as HTMLButtonElement;
+  const icon  = document.getElementById('theme-icon')   as HTMLSpanElement;
+  const label = document.getElementById('theme-label')  as HTMLSpanElement;
+
+  function syncButton(theme: string) {
+    if (theme === 'dark') {
+      icon.textContent  = '☼';
+      label.textContent = 'day';
+      btn.title = 'switch to day';
+    } else {
+      icon.textContent  = '☾';
+      label.textContent = 'night';
+      btn.title = 'switch to night';
+    }
+  }
+
+  syncButton(document.documentElement.getAttribute('data-theme') ?? 'light');
+
+  btn.addEventListener('click', () => {
+    const current = document.documentElement.getAttribute('data-theme') ?? 'light';
+    const next = current === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('qd-theme', next);
+    syncButton(next);
+  });
+
+  // Active nav link on home page via IntersectionObserver
+  const navLinks = document.querySelectorAll<HTMLAnchorElement>('.nav__link[data-section]');
+  if (navLinks.length > 0 && typeof IntersectionObserver !== 'undefined') {
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const id = entry.target.id;
+            navLinks.forEach((link) => {
+              link.classList.toggle('is-active', link.dataset.section === id);
+            });
+          }
+        });
+      },
+      { threshold: 0.25 }
+    );
+    ['writing', 'building', 'elsewhere', 'now'].forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) obs.observe(el);
+    });
+  }
+</script>

@@ -1,0 +1,20 @@
+---
+const profiles = [
+  { name: 'github', handle: '@Nofil2003',          url: 'https://github.com/Nofil2003' },
+  { name: 'email',  handle: 'nofilalikhan@gmail.com', url: 'mailto:nofilalikhan@gmail.com' },
+];
+---
+<section class="side__section" id="elsewhere">
+  <h3 class="side__title">elsewhere</h3>
+  <ul class="profiles">
+    {profiles.map((p) => (
+      <li>
+        <a href={p.url} target="_blank" rel="noopener" class="profile">
+          <span class="profile__name">{p.name}</span>
+          <span class="profile__handle">{p.handle}</span>
+          <img src="/assets/sprite-arrow.svg" width="12" height="12" class="pix profile__arrow" alt="" />
+        </a>
+      </li>
+    ))}
+  </ul>
+</section>

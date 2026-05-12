@@ -1,0 +1,154 @@
+/* =========================================================
+   QUIET DESK — design tokens
+   ========================================================= */
+
+@import url("https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=VT323&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap");
+
+:root {
+  --paper:        #F3E9D2;
+  --paper-warm:   #ECDFC0;
+  --paper-deep:   #E2D2AC;
+  --ink:          #2B2018;
+  --ink-soft:     #4A3A2C;
+  --ink-muted:    #7A6650;
+  --ink-faint:    #B49A78;
+
+  --terracotta:      #C2613D;
+  --terracotta-deep: #9E4A2A;
+  --mustard:         #D4A24C;
+  --mustard-soft:    #E9C683;
+  --moss:            #7A8B5C;
+  --moss-deep:       #56683F;
+  --dusk:            #6B7E97;
+  --plum:            #8C5A6E;
+
+  --bg:           var(--paper);
+  --bg-elev:      var(--paper-warm);
+  --bg-sunk:      var(--paper-deep);
+  --fg:           var(--ink);
+  --accent:       var(--terracotta);
+  --accent-hover: var(--terracotta-deep);
+  --link:         var(--terracotta);
+  --link-visited: var(--plum);
+  --success:      var(--moss);
+  --rule:         rgba(43, 32, 24, 0.15);
+  --rule-strong:  rgba(43, 32, 24, 0.35);
+
+  --font-serif:      "Newsreader", Georgia, "Times New Roman", serif;
+  --font-sans:       "Inter Tight", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono:       "JetBrains Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+  --font-pixel:      "Silkscreen", "VT323", monospace;
+  --font-pixel-term: "VT323", "Silkscreen", monospace;
+
+  --t-xs:   12px;
+  --t-sm:   14px;
+  --t-base: 17px;
+  --t-md:   19px;
+  --t-lg:   22px;
+  --t-xl:   28px;
+  --t-2xl:  36px;
+  --t-3xl:  48px;
+  --t-4xl:  64px;
+
+  --lh-tight: 1.15;
+  --lh-snug:  1.3;
+  --lh-base:  1.55;
+  --lh-prose: 1.7;
+
+  --s-1:  4px;
+  --s-2:  8px;
+  --s-3:  12px;
+  --s-4:  16px;
+  --s-5:  20px;
+  --s-6:  24px;
+  --s-8:  32px;
+  --s-10: 40px;
+  --s-12: 48px;
+  --s-16: 64px;
+  --s-20: 80px;
+  --s-24: 96px;
+
+  --r-0:   0;
+  --r-1:   2px;
+  --r-2:   4px;
+  --r-3:   8px;
+  --r-pill: 999px;
+
+  --shadow-1: 0 1px 0 rgba(43, 32, 24, 0.06), 0 1px 2px rgba(43, 32, 24, 0.05);
+  --shadow-2: 0 2px 0 rgba(43, 32, 24, 0.08), 0 4px 12px rgba(43, 32, 24, 0.07);
+  --shadow-3: 0 4px 0 rgba(43, 32, 24, 0.10), 0 8px 24px rgba(43, 32, 24, 0.10);
+  --shadow-pixel:    3px 3px 0 var(--ink);
+  --shadow-pixel-sm: 2px 2px 0 var(--ink);
+
+  --b-hair:  1px solid var(--rule);
+  --b-1:     1px solid var(--rule-strong);
+  --b-pixel: 2px solid var(--ink);
+
+  --ease:     cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --t-fast:   120ms;
+  --t-base-d: 200ms;
+  --t-slow:   400ms;
+
+  --content-w: 720px;
+  --page-w:    1140px;
+  --gutter:    var(--s-6);
+}
+
+* { box-sizing: border-box; }
+
+html { background: var(--bg); color: var(--ink); }
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--t-base);
+  line-height: var(--lh-base);
+  color: var(--ink);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  margin: 0;
+}
+
+a {
+  color: var(--link);
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: color var(--t-fast) var(--ease);
+}
+a:hover {
+  color: var(--accent-hover);
+  text-decoration-style: solid;
+}
+
+::selection { background: var(--mustard-soft); color: var(--ink); }
+
+hr { border: 0; border-top: var(--b-hair); margin: var(--s-8) 0; }
+
+.pix { image-rendering: pixelated; }
+
+/* ============================================================
+   DARK MODE
+   ============================================================ */
+[data-theme="dark"] {
+  --ink:          #E8DCC4;
+  --ink-soft:     #C9B795;
+  --ink-muted:    #8E7A5C;
+  --paper:        #1B1410;
+  --paper-warm:   #261B14;
+  --paper-deep:   #1F1810;
+  --terracotta:      #E89766;
+  --terracotta-deep: #C9763F;
+  --moss:         #A8B97A;
+  --rule:         rgba(232, 220, 196, 0.12);
+  --rule-strong:  rgba(232, 220, 196, 0.30);
+  --bg:           var(--paper);
+  --bg-elev:      var(--paper-warm);
+  --link:         var(--terracotta);
+  --accent:       var(--terracotta);
+  --accent-hover: var(--terracotta-deep);
+}
+[data-theme="dark"] body { background: #1B1410; color: #E8DCC4; }
+[data-theme="dark"] html { background: #1B1410; }

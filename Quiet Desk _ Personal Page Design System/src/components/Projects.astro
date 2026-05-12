@@ -1,0 +1,24 @@
+---
+const projects = [
+  { name: 'queue',    tag: 'web',     blurb: 'a tiny task list that punishes you for re-adding things.', color: 'terracotta' },
+  { name: 'inkpad',  tag: 'mac app', blurb: 'markdown notes that look like paper.',                     color: 'mustard'    },
+  { name: 'roomtone',tag: 'audio',   blurb: 'ambient generator trained on my dorm hallway.',            color: 'moss'       },
+  { name: 'this site',tag: 'home',   blurb: 'always being slightly rewritten.',                         color: 'dusk'       },
+];
+---
+<section class="side__section" id="building">
+  <h3 class="side__title">things i'm building</h3>
+  <ul class="projects">
+    {projects.map((p) => (
+      <li>
+        <a href="#" class={`project__link project project--${p.color}`}>
+          <div class="project__head">
+            <span class="project__name">{p.name}</span>
+            <span class="project__tag">{p.tag}</span>
+          </div>
+          <p class="project__blurb">{p.blurb}</p>
+        </a>
+      </li>
+    ))}
+  </ul>
+</section>

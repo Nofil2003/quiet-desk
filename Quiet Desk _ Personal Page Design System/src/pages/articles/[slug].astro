@@ -1,0 +1,160 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+
+import '../../styles/page.css';
+import '../../styles/article.css';
+
+export async function getStaticPaths() {
+  const articles = await getCollection('articles');
+  return articles.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content, headings } = await render(entry);
+
+const all = await getCollection('articles');
+const related = all
+  .filter((a) => a.slug !== entry.slug)
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+  .slice(0, 3);
+
+const h2s = headings.filter((h) => h.depth === 2);
+---
+
+<Layout
+  title={`${entry.data.title} · quiet desk`}
+  description={entry.data.dek}
+>
+  <div class="page-art">
+    <Nav />
+    <div class="article-layout">
+
+      <aside class="aside">
+        {h2s.length > 0 && (
+          <>
+            <p class="aside__title">in this one</p>
+            <ol class="aside__list">
+              {h2s.map((h, i) => (
+                <li>
+                  <a class="aside__link" href={`#${h.slug}`}>
+                    <span class="aside__n">0{i + 1}</span>
+                    {h.text}
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </>
+        )}
+        <button class="aside__top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+          ↑ top
+        </button>
+      </aside>
+
+      <div>
+        <header class="ah">
+          <a href="/" class="ah__back">← back to the desk</a>
+          <div class="ah__meta">
+            <time>{entry.data.date}</time>
+            <span>·</span>
+            <span>{entry.data.readTime ?? '5 min'} read</span>
+            {entry.data.tags.map((tag) => (
+              <>
+                <span>·</span>
+                <span class="ah__tag">{tag}</span>
+              </>
+            ))}
+          </div>
+          <h1 class="ah__title">{entry.data.title}</h1>
+          <p class="ah__dek">{entry.data.dek}</p>
+          <div class="ah__rule"></div>
+        </header>
+
+        <div class="ab">
+          <Content />
+        </div>
+
+        <!-- Reactions -->
+        <section class="rx" id="reactions">
+          <h4 class="rx__title">how it landed</h4>
+          <div class="rx__row">
+            <button class="rx__btn" data-key="heart" type="button" aria-pressed="false">
+              <img src="/assets/sprite-heart.svg" width="20" height="20" class="pix" alt="" />
+              <span class="rx__label">this was nice</span>
+              <span class="rx__count">38</span>
+            </button>
+            <button class="rx__btn" data-key="spark" type="button" aria-pressed="false">
+              <img src="/assets/sprite-sparkle.svg" width="20" height="20" class="pix" alt="" />
+              <span class="rx__label">i felt seen</span>
+              <span class="rx__count">21</span>
+            </button>
+            <button class="rx__btn" data-key="cof" type="button" aria-pressed="false">
+              <img src="/assets/sprite-coffee.svg" width="20" height="20" class="pix" alt="" />
+              <span class="rx__label">me too at 4am</span>
+              <span class="rx__count">12</span>
+            </button>
+            <button class="rx__btn" data-key="hp" type="button" aria-pressed="false">
+              <img src="/assets/sprite-headphones.svg" width="20" height="20" class="pix" alt="" />
+              <span class="rx__label">on a walk now</span>
+              <span class="rx__count">7</span>
+            </button>
+          </div>
+          <p class="rx__hint">tap one. nothing fancy.</p>
+        </section>
+
+        <!-- Related reads -->
+        {related.length > 0 && (
+          <section class="rr">
+            <h3 class="rr__title">more from the desk</h3>
+            <ul class="rr__list">
+              {related.map((a) => (
+                <li class="rr__item">
+                  <a href={`/articles/${a.slug}`} class="rr__link">
+                    <span class="rr__meta">
+                      <time>{a.data.date}</time>
+                      <span>·</span>
+                      <span>{a.data.readTime ?? '5 min'}</span>
+                    </span>
+                    <span class="rr__t">{a.data.title}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+      </div>
+    </div>
+  </div>
+  <Footer />
+</Layout>
+
+<script>
+  const slug = window.location.pathname.split('/').filter(Boolean).pop() ?? '';
+
+  document.querySelectorAll<HTMLButtonElement>('.rx__btn').forEach((btn) => {
+    const key = btn.dataset.key ?? '';
+    const countEl = btn.querySelector<HTMLSpanElement>('.rx__count')!;
+    const base = parseInt(countEl.textContent ?? '0', 10);
+    const storageKey = `qd-rx-${slug}-${key}`;
+    let on = localStorage.getItem(storageKey) === '1';
+
+    function render() {
+      btn.classList.toggle('is-on', on);
+      btn.setAttribute('aria-pressed', String(on));
+      countEl.textContent = String(base + (on ? 1 : 0));
+    }
+
+    render();
+
+    btn.addEventListener('click', () => {
+      on = !on;
+      localStorage.setItem(storageKey, on ? '1' : '0');
+      render();
+    });
+  });
+</script>

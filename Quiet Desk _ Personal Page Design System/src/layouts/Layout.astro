@@ -1,0 +1,32 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+}
+const {
+  title = 'quiet desk · nofil',
+  description = "cs student. i write long things about debugging, late nights, and whatever's in my head at 3am.",
+} = Astro.props;
+
+import '../styles/tokens.css';
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="alternate" type="application/rss+xml" title="quiet desk" href="/feed.xml" />
+    <script is:inline>
+      (function () {
+        var stored = typeof localStorage !== 'undefined' ? localStorage.getItem('qd-theme') : null;
+        var preferred = typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', stored || preferred);
+      })();
+    </script>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

@@ -1,0 +1,80 @@
+---
+import { getCollection } from 'astro:content';
+
+const all = await getCollection('articles');
+const sorted = all.sort(
+  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+);
+const pinned   = sorted.filter((a) => a.data.pinned);
+const unpinned = sorted.filter((a) => !a.data.pinned);
+const articles = [...pinned, ...unpinned].slice(0, 5);
+---
+
+<section class="articles" id="writing">
+  <div class="section__head">
+    <h2 class="section__title">things i've been thinking about</h2>
+    <p class="section__sub">
+      {articles.length} most recent ·
+      <a href="/articles">all writing →</a>
+    </p>
+  </div>
+  <div class="articles__list">
+    {articles.map((a) => (
+      <article class={`article${a.data.pinned ? ' is-pinned' : ''}`} data-slug={a.slug}>
+        {a.data.pinned && (
+          <div class="article__pin" aria-label="pinned">
+            <img src="/assets/sprite-pin.svg" width="14" height="14" class="pix" alt="" />
+          </div>
+        )}
+        <div class="article__meta">
+          <time>{a.data.date}</time>
+          <span>·</span>
+          <span>{a.data.readTime ?? '5 min'}</span>
+        </div>
+        <h3 class="article__title">
+          <a href={`/articles/${a.slug}`}>{a.data.title}</a>
+        </h3>
+        <p class="article__dek">{a.data.dek}</p>
+        <div class="article__foot">
+          <button
+            class="like"
+            data-slug={a.slug}
+            data-count="0"
+            aria-pressed="false"
+            type="button"
+          >
+            <img src="/assets/sprite-heart.svg" width="14" height="14" class="pix" alt="" />
+            <span class="like__count">0</span>
+          </button>
+          <a href={`/articles/${a.slug}`} class="article__more">
+            read it
+            <img src="/assets/sprite-arrow.svg" width="14" height="14" class="pix" alt="" />
+          </a>
+        </div>
+      </article>
+    ))}
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('.like').forEach((btn) => {
+    const slug = btn.dataset.slug ?? '';
+    const countEl = btn.querySelector<HTMLSpanElement>('.like__count')!;
+    const key = `qd-like-${slug}`;
+    let liked = localStorage.getItem(key) === '1';
+
+    function render() {
+      btn.classList.toggle('is-on', liked);
+      btn.setAttribute('aria-pressed', String(liked));
+      countEl.textContent = String(liked ? 1 : 0);
+    }
+
+    render();
+
+    btn.addEventListener('click', () => {
+      liked = !liked;
+      localStorage.setItem(key, liked ? '1' : '0');
+      render();
+    });
+  });
+</script>

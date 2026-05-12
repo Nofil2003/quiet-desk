@@ -1,0 +1,32 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Cover from '../components/Cover.astro';
+import ArticlesList from '../components/ArticlesList.astro';
+import Now from '../components/Now.astro';
+import Projects from '../components/Projects.astro';
+import Playlist from '../components/Playlist.astro';
+import Profiles from '../components/Profiles.astro';
+import Footer from '../components/Footer.astro';
+
+import '../styles/page.css';
+---
+
+<Layout>
+  <div class="page">
+    <Nav />
+    <Cover />
+    <div class="layout">
+      <main>
+        <ArticlesList />
+      </main>
+      <aside class="side">
+        <Now />
+        <Projects />
+        <Playlist />
+        <Profiles />
+      </aside>
+    </div>
+  </div>
+  <Footer />
+</Layout>
