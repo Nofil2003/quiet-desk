@@ -7,9 +7,9 @@ dek: "this is mostly me thinking out loud. you don't need to read it. but if you
 readTime: "6 min"
 ---
 
-i have about fourteen months left. that's not nothing. it's also not enough.
+i have almost thirty months left. that's not nothing. it's also not enough.
 
-i've been treating it like a deadline — the way i treat every deadline — which means i'm aware of it constantly and doing very little about it. i wake up, it's there. i go to sleep, it's there. fourteen months. then what.
+i've been treating it like a deadline — the way i treat every deadline — which means i'm aware of it constantly and doing very little about it. i wake up, it's there. i go to sleep, it's there. almost thirty months. then what.
 
 ## the part i can't figure out
 
