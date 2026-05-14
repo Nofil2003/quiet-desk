@@ -1,77 +1,164 @@
 ---
-title: "the 4am bug that wasn't a bug"
-date: "2026-03-14"
+title: "the DLD project that survived on one photo"
+date: "2026-05-14"
 tags: ["ramblings", "cs"]
 pinned: true
-dek: "sometimes the bug is in your head. a small story about spending six hours on the wrong line of code and what it taught me about asking for help — eventually."
-readTime: "12 min"
+dek: "a deadline, a water-level detector, one cursed Uber ride, and the single photo that kept me from failing DLD."
+readTime: "10 min"
 ---
 
-it started around 10pm.
+the DLD project was due the next morning, which is exactly when a DLD project starts becoming real.
 
-i had a segfault in a small C program — a parser i was writing for the compilers assignment. the error message was vague, as they always are. `Segmentation fault (core dumped)`. thanks. very helpful.
+before that it is mostly a collection of optimistic sentences:
 
-i opened gdb. i checked the stack trace. the crash was happening in a function called `advance_token`, somewhere around line 94. i looked at line 94. nothing seemed wrong. i looked at lines 90 through 100. still nothing. i reread the whole function. i commented out sections. i added print statements. i rebuilt each time.
+"yeah, i'll bring the components."
 
-nothing changed. the crash kept happening. exact same line.
+"yeah, we'll just assemble it tonight."
 
-## the part where i convinced myself it was a compiler bug
+"yeah, water-level detection is easy."
 
-at around midnight, i started googling things like "gcc bug segfault false positive" and "clang miscompiles pointer arithmetic." this is, in retrospect, the first sign you've gone off the rails. the compiler is almost never wrong. but when you're three hours in and can't find the issue, the compiler starts to look very suspicious.
+the project was supposed to detect water level: empty, 25%, 50%, 75%, 100%. bulbs would light up at the right levels. clean concept. simple demo. the kind of thing that looks harmless until it is 10pm and your grade is sitting inside a plastic bag full of wires.
 
-i switched from gcc to clang. same crash. i downgraded to an older version of the standard library. same crash. i rewrote `advance_token` from scratch in a separate file to make sure it wasn't some subtle undefined behavior i was introducing through the larger codebase.
+## the plan, allegedly
 
-same crash.
+we had a plan.
 
-## the spiral
+one friend had bought most of the stuff for the project, but he had some family celebration going on at home. this meant he could not show up, but he promised he would send the components and tools.
 
-by 2am i had:
-- rewritten the function twice
-- switched compilers
-- reformatted my hard drive (okay, not quite — but i thought about it)
-- opened five stack overflow tabs that weren't related to my problem
-- eaten an entire bag of pretzels without noticing
+the other friend promised to meet me at Howdy's in Model Town. the plan was very academic: eat a burger, drink something cold, then work through the night until the restaurant closed or we stopped being people.
 
-the stack trace still said line 94. i had memorized line 94. line 94 was `token = tokens[pos];`. this is a single array access. this cannot segfault unless `tokens` is null or `pos` is out of bounds.
+i was leaving from my house at the edge of Lahore. Model Town is in the middle of Lahore, which means it is either thirty minutes away or a different country, depending on traffic and how personally the city wants to test you that day.
 
-i had checked that `tokens` was not null. multiple times.
+i booked an Uber and got in.
 
-i had not checked that `pos` was not out of bounds.
+this was the first mistake.
 
-## the bug
+## the ride
 
-it was `pos`. of course it was `pos`.
+the driver was strange from the start. not dangerous in a clear, reportable way. just uncomfortable. the kind of uncomfortable where you sit in the back seat and suddenly become very interested in Google Maps, your door handle, and the exact number of minutes left in the ride.
 
-there was a function three call frames up that was supposed to stop incrementing `pos` when it reached the end of the token stream. it didn't. it kept going. so by the time `advance_token` ran, `pos` was 47 and the array had 46 elements.
+then he stopped on the way to take a piss on the sidewalk.
 
-i had written that function myself, two weeks before, and then completely forgot it existed. i assumed the problem had to be in the code i'd just written. the thing i was staring at. the six lines i could see on my screen.
+at this point i was already tired, already stressed, already rehearsing DLD logic in my head like prayer. i thought, fine. terrible, but fine. Lahore has seen worse.
 
-the bug was elsewhere — in the context. in the thing that called the thing that called the thing.
+then the car stopped.
 
-## what this is actually about
+not at a signal. not outside the restaurant. not anywhere useful.
 
-i didn't figure it out myself. at 3:58am i sent a message to a friend — another cs student who was, apparently, also still awake. i described the problem. badly. i was exhausted and my description was incoherent.
+it stopped because we had run out of fuel.
 
-he asked one question: "what's calling `advance_token`?"
+i looked at the driver. the driver looked at the road. the road offered no solutions.
 
-i opened the call stack again. really looked at it. and then i saw it.
+my phone had no balance. i had no internet. i could not call my friend. i could not cancel the ride. i could not even send the extremely important message: "bro you will not believe this but my Uber has died next to the university because the driver forgot fuel."
 
-the fix was one line. a bounds check. `if (pos >= token_count) return;`. the whole thing took forty seconds once i knew where to look.
+and of course, because the universe has a sense of humor, the car stopped right next to the university.
 
-six hours. one bounds check. one question from a friend who wasn't even looking at my code.
+not my destination. not my salvation. just close enough to be insulting.
 
-## the lesson i actually took from this
+## the longest forty-five minutes
 
-the obvious lesson is: check your assumptions. don't assume the bug is in the last thing you touched. read the whole call stack. don't blame the compiler.
+it was 10pm.
 
-but the real lesson, the one i think about more, is this: i waited until 4am to ask for help. i spent six hours cycling through increasingly unhinged theories about compiler bugs and pointer arithmetic, when the fix was one question away the entire time.
+i thought my friend was already sitting at Howdy's, probably angry, probably looking at the door every few minutes, probably preparing the kind of silence that makes you apologize before you even sit down.
 
-i didn't ask because i wanted to solve it myself. i wanted to be the person who figured it out. i wanted the clean narrative — stayed up late, found the bug, shipped the thing. asking for help felt like admitting i wasn't that person.
+i was in a dead Uber with no internet, no fuel, and no dignity.
 
-it's a bad reason. it cost me six hours of sleep and an entire bag of pretzels.
+then a rickshaw wala pulled up like an NPC sent by Allah.
 
-i ask faster now. it's better.
+the driver took a bottle, went with him, disappeared into the night, and left me sitting there in the car. i waited. and waited. and waited.
 
----
+forty-five minutes is not a long time when you are watching a movie. forty-five minutes is a full geological era when you are trapped in someone else's fuel-less car, imagining your DLD grade dissolving in real time.
 
-*the compilers assignment, by the way, got a 94. the grader left a note: "nice parser." i don't think they knew about the 4am.*
+eventually the driver came back with fuel. the car started. somehow. against all available evidence.
+
+we reached Howdy's.
+
+## the apology i did not need
+
+on the way there, i had built an entire apology in my head.
+
+sorry i'm late.
+
+sorry the Uber died.
+
+sorry the driver was weird.
+
+sorry Lahore exists.
+
+sorry DLD exists.
+
+i walked in expecting my friend to either be gone or sitting there with murder in his eyes.
+
+he was not there.
+
+ten minutes later he arrived from another city.
+
+i had spent the whole ride thinking i was the villain of the night. he walked in apologizing to me.
+
+i told him the Uber story. he laughed, which was honestly the only correct response. if he had been sympathetic i might have collapsed.
+
+we ate. we drank. the other friend sent the components and tools like contraband for a small engineering heist. i took all of it home with the confidence of a man who had no plan except not failing.
+
+## the actual all-nighter
+
+i got back in another Uber at 2am.
+
+this one had fuel, which felt luxurious.
+
+i reached home, started working around 3am, and kept going until 6am. wires, bulbs, water levels, whatever remained of my brain. the whole thing became a blur of small fixes:
+
+why is this bulb not lighting?
+
+why is this one always lighting?
+
+why does 25% think it is 100%?
+
+why do i study?
+
+by sunrise, it worked.
+
+empty. 25%. 50%. 75%. 100%.
+
+each bulb lit at its respective water level. actual evidence. actual functioning circuit. actual miracle.
+
+i took a photo.
+
+this was the smartest thing i did in the entire course.
+
+## the demo
+
+i was sleep deprived when i got to college. not "a little tired." i mean the kind of tired where your face feels like it is being rendered at low resolution.
+
+we rebuilt the project for the demo.
+
+it did not work.
+
+of course it did not work.
+
+for two hours we tried everything. wires moved. wires returned. components were blamed. physics was blamed. DLD was blamed, correctly. nothing worked.
+
+we were staring at a zero.
+
+not a small deduction. not "needs improvement." a clean, professional zero.
+
+then i showed the TA the photo from 6am.
+
+the bulbs were lit. the water levels were visible. the project was alive in that one frozen moment before the universe took it back.
+
+thankfully, the TA was nice enough to accept it.
+
+## the grade
+
+i got a D in that course.
+
+not a dramatic academic comeback. not an inspirational ending. a D.
+
+but without that last-night struggle, and without that photo, i would have failed.
+
+so yes, technically, the project worked.
+
+it worked at 6am.
+
+it worked once.
+
+and sometimes, in DLD, once is enough.
