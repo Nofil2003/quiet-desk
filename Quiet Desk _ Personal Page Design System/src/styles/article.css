@@ -70,6 +70,31 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
 .ab a { color: var(--terracotta); }
 .ab a:hover { color: var(--terracotta-deep); }
 .ab hr { border: 0; border-top: var(--b-hair); margin: var(--s-8) 0; }
+.certificate-note {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(180px, 0.45fr);
+  gap: var(--s-5);
+  align-items: end;
+  margin: var(--s-8) 0 0;
+}
+.certificate-note img {
+  width: 100%;
+  display: block;
+}
+.certificate-note figcaption {
+  margin: 0;
+  padding: var(--s-4);
+  border-left: 3px solid var(--terracotta);
+  font-family: var(--font-serif);
+  font-size: 18px;
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+[data-theme="dark"] .certificate-note figcaption { color: #C9B795; }
+@media (max-width: 680px) {
+  .certificate-note { grid-template-columns: 1fr; }
+}
 
 /* ===== REACTIONS ===== */
 .rx { margin: var(--s-10) 0; padding: var(--s-6); background: var(--paper-warm); border-radius: var(--r-3); }

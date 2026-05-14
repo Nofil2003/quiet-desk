@@ -3,11 +3,11 @@ title: "the chatbot i built when i could not breathe"
 date: "2026-05-14"
 tags: ["cs", "ramblings"]
 pinned: false
-dek: "in 2019, while covid had me stuck in bed and scared, i built a small AI chatbot with IBM Watson because making something felt easier than waiting."
+dek: "in 2020, while covid had me stuck in bed and scared, i built a small AI chatbot with IBM Watson because making something felt easier than waiting."
 readTime: "7 min"
 ---
 
-in 2019, when covid had me stuck in bed and doing the kind of breathing where you notice every breath, i built an AI chatbot.
+in 2020, when covid had me stuck in bed and doing the kind of breathing where you notice every breath, i built an AI chatbot.
 
 this was not the cinematic version of being sick. there was no meaningful montage. mostly there was a room, a fever, too much time, and the strange feeling that my body had become a project i did not know how to debug.
 
@@ -74,3 +74,8 @@ but i still remember being in that room, refreshing the test panel, making tiny 
 it was not a great chatbot.
 
 it was proof that i could still make something.
+
+<figure class="certificate-note">
+  <img src="/assets/watson-certificate.jpeg" alt="IBM Watson course certificate from Coursera" />
+  <figcaption>a tiny certificate from a very dramatic chapter: me, half-breathing, trying to teach a chatbot how to answer while my own body was buffering.</figcaption>
+</figure>
