@@ -86,22 +86,22 @@ const h2s = headings.filter((h) => h.depth === 2);
             <button class="rx__btn" data-key="heart" type="button" aria-pressed="false">
               <img src="/assets/sprite-heart.svg" width="20" height="20" class="pix" alt="" />
               <span class="rx__label">this was nice</span>
-              <span class="rx__count">38</span>
+              <span class="rx__count">0</span>
             </button>
             <button class="rx__btn" data-key="spark" type="button" aria-pressed="false">
               <img src="/assets/sprite-sparkle.svg" width="20" height="20" class="pix" alt="" />
               <span class="rx__label">i felt seen</span>
-              <span class="rx__count">21</span>
+              <span class="rx__count">0</span>
             </button>
             <button class="rx__btn" data-key="cof" type="button" aria-pressed="false">
               <img src="/assets/sprite-coffee.svg" width="20" height="20" class="pix" alt="" />
               <span class="rx__label">me too at 4am</span>
-              <span class="rx__count">12</span>
+              <span class="rx__count">0</span>
             </button>
             <button class="rx__btn" data-key="hp" type="button" aria-pressed="false">
               <img src="/assets/sprite-headphones.svg" width="20" height="20" class="pix" alt="" />
               <span class="rx__label">on a walk now</span>
-              <span class="rx__count">7</span>
+              <span class="rx__count">0</span>
             </button>
           </div>
           <p class="rx__hint">tap one. nothing fancy.</p>
@@ -141,19 +141,23 @@ const h2s = headings.filter((h) => h.depth === 2);
     const countEl = btn.querySelector<HTMLSpanElement>('.rx__count')!;
     const base = parseInt(countEl.textContent ?? '0', 10);
     const storageKey = `qd-rx-${slug}-${key}`;
-    let on = localStorage.getItem(storageKey) === '1';
+    let increment = parseInt(localStorage.getItem(storageKey) ?? '0', 10);
+
+    if (Number.isNaN(increment) || increment < 0) {
+      increment = 0;
+    }
 
     function render() {
-      btn.classList.toggle('is-on', on);
-      btn.setAttribute('aria-pressed', String(on));
-      countEl.textContent = String(base + (on ? 1 : 0));
+      btn.classList.toggle('is-on', increment > 0);
+      btn.setAttribute('aria-pressed', String(increment > 0));
+      countEl.textContent = String(base + increment);
     }
 
     render();
 
     btn.addEventListener('click', () => {
-      on = !on;
-      localStorage.setItem(storageKey, on ? '1' : '0');
+      increment += 1;
+      localStorage.setItem(storageKey, String(increment));
       render();
     });
   });
