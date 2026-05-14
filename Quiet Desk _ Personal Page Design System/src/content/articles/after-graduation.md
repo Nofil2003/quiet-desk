@@ -15,7 +15,7 @@ i've been treating it like a deadline — the way i treat every deadline — whi
 
 everyone seems to have a plan. or at least they perform having a plan convincingly enough that i can't tell the difference.
 
-my plan is: finish the degree. try to not fail the compilers class. maybe get better at cooking something other than pasta. these aren't answers to "what are you doing after graduation." these are just things that are happening.
+my plan is: finish the degree. try to not fail the compilers class. maybe get better at cooking something other than kebabs. these aren't answers to "what are you doing after graduation." these are just things that are happening.
 
 i applied to a few internships. i went to the career fair and felt immediately out of place in a room full of people in business casual holding printed resumes. i have a pdf resume. it's fine. it has my github on it. i didn't print it.
 
@@ -27,7 +27,7 @@ this is the part i don't say out loud: i want to work on something that feels li
 
 i don't know if that's a job description. maybe it's a value, which is different.
 
-i've been building small things — the projects in the sidebar. none of them have more than twelve users. one of them has two users, and one of those is me. but when the one other user told me it helped, i thought about it for three days.
+i've been building small things — the projects in the sidebar. right now the only real user is usually me, except for a game i built where the other user was my project partner, which feels less like a user base and more like a hostage situation with grading criteria.
 
 that's probably a data point.
 
